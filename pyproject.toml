@@ -1,7 +1,7 @@
 [project]
-name = "djp"
-version = "0.3.3"
-description = "A plugin system for Django (modded by me, Lusayo, for development.)"
+name = "djp_experimental"
+version = "0.0.1"
+description = "A plugin system for Django forked from https://github.com/simonw/djp."
 readme = "README.md"
 requires-python = ">=3.8"
 authors = [{name = "Simon Willison"},{name = "Lusayo Nyondo"}]
