@@ -1,5 +1,8 @@
 from .hookspecs import hookimpl
 from . import hookspecs
+from .lib import (
+    setting_exists
+)
 import itertools
 import os
 import pathlib
@@ -57,6 +60,33 @@ def installed_apps() -> List[str]:
     return ["djp"] + list(itertools.chain(*pm.hook.installed_apps()))
 
 
+def staticfiles_dirs() -> List[str]:
+    return list(itertools.chain(*pm.hook.staticfiles_dirs()))
+
+
+def staticfiles_finders() -> List[str]:
+    return list(itertools.chain(*pm.hook.staticfiles_finders()))
+
+
+def authentication_backends() -> List[str]:
+    return list(itertools.chain(*pm.hook.authentication_backends()))
+
+
+def auth_password_validators() -> List[str]:
+    return list(itertools.chain(*pm.hook.auth_password_validators()))
+
+
+def databases() -> dict:
+    dict_list = pm.hook.databases()
+    
+    merged_dict = {}
+    
+    for dict_item in dict_list:
+        merged_dict.update(dict_item)
+        
+    return merged_dict
+
+
 def middleware(current_middleware: List[str]):
     before = []
     after = []
@@ -100,15 +130,81 @@ def urlpatterns():
     return list(itertools.chain(*pm.hook.urlpatterns()))
 
 
+def context_processors():
+    return list(itertools.chain(*pm.hook.context_processors()))
+
+
+def builtins():
+    return list(itertools.chain(*pm.hook.builtins()))
+
+
+def loaders():
+    return list(itertools.chain(*pm.hook.loaders()))
+
+
 def settings(current_settings):
     # First wrap INSTALLED_APPS
     installed_apps_ = to_list(current_settings["INSTALLED_APPS"])
     installed_apps_ += installed_apps()
     current_settings["INSTALLED_APPS"] = installed_apps_
-
+    
     # Now MIDDLEWARE
     current_settings["MIDDLEWARE"] = middleware(current_settings["MIDDLEWARE"])
+    
+    # Now DATABASES
+    if setting_exists("DATABASES", current_settings):
+        databases_ = databases()
+        current_settings["DATABASES"].update(databases_)
 
+    if setting_exists("CONTEXT_PROCESSORS", current_settings):
+        # Now CONTEXT PROCESSORS
+        context_processors_ = to_list(
+            current_settings["TEMPLATES"][0]["OPTIONS"]["context_processors"]
+        )
+        context_processors_ += context_processors()
+        current_settings["TEMPLATES"][0]["OPTIONS"]["context_processors"] = context_processors_
+        
+    if setting_exists("BUILTINS", current_settings):
+        # Now BUILTINS
+        builtins_ = to_list(
+            current_settings["TEMPLATES"][0]["OPTIONS"]["builtins"]
+        )
+        builtins_ += builtins()
+        current_settings["TEMPLATES"][0]["OPTIONS"]["builtins"] = builtins_
+    
+    if setting_exists("LOADERS", current_settings):
+        # Now LOADERS
+        loaders_ = to_list(
+            current_settings["TEMPLATES"][0]["OPTIONS"]["loaders"]
+        )
+        loaders_ += loaders()
+        current_settings["TEMPLATES"][0]["OPTIONS"]["loaders"] = loaders_
+    
+    if setting_exists("STATICFILES_FINDERS", current_settings):
+        # Now STATICFILES_FINDERS
+        staticfiles_dirs_ = to_list(current_settings["STATICFILES_DIRS"])
+        staticfiles_dirs_ += staticfiles_dirs()
+        current_settings["STATICFILES_DIRS"] = staticfiles_dirs_
+    
+    if setting_exists("STATICFILES_DIRS", current_settings):    
+        # Now STATICFILES_DIRS
+        staticfiles_finders_ = to_list(current_settings["STATICFILES_FINDERS"])
+        staticfiles_finders_ += staticfiles_finders()
+        current_settings["STATICFILES_FINDERS"] = staticfiles_finders_
+    
+    if setting_exists("AUTH_PASSWORD_VALIDATORS", current_settings):
+        # Now AUTHPASSWORD_VALIDATORS    
+        authpassword_validators_ = to_list(current_settings["AUTH_PASSWORD_VALIDATORS"])
+        authpassword_validators_ += auth_password_validators()
+        print("Adding auth password validators")
+        current_settings["AUTH_PASSWORD_VALIDATORS"] = authpassword_validators_
+    
+    if setting_exists("AUTHENTICATION_BACKENDS", current_settings):        
+        # Now AUTHENTICATION_BACKENDS    
+        authentication_backends_ = to_list(current_settings["AUTHENTICATION_BACKENDS"])
+        authentication_backends_ += authentication_backends()
+        current_settings["AUTHENTICATION_BACKENDS"] = authentication_backends_
+    
     # Now apply any other settings() hooks
     pm.hook.settings(current_settings=current_settings)
 
@@ -141,3 +237,7 @@ def asgi_wrapper(application):
     for wrapper in pm.hook.asgi_wrapper():
         application = wrapper(application)
     return application
+
+
+def check_if_settings_hook_target_exists():
+    pass

@@ -47,6 +47,43 @@ def test_installed_apps():
     assert "tests.test_project.app1" in settings.INSTALLED_APPS
 
 
+def test_databases():
+    assert "from_plugin" in settings.DATABASES.keys()
+
+
+def test_context_processors():
+    assert 'from_plugin.context_processors.my_context_processor' \
+        in settings.TEMPLATES[0]["OPTIONS"]['context_processors']
+
+
+def test_loaders():
+    assert 'from_plugin.loaders.my_plugin_loader' \
+        in settings.TEMPLATES[0]["OPTIONS"]['loaders']
+
+     
+def test_builtins():
+    assert 'from_plugin.templatetags.my_plugin_tags' \
+        in settings.TEMPLATES[0]["OPTIONS"]['builtins']
+        
+def test_staticfiles_dirs():
+    assert 'from_plugin_staticfiles_dir' \
+        in settings.STATICFILES_DIRS
+        
+def test_staticfiles_finders():
+    assert 'from_plugin.finders.PluginFinder' \
+        in settings.STATICFILES_FINDERS
+        
+def test_authentication_backends():
+    assert 'from_plugin.auth_backends.PluginAuthBackend' \
+        in settings.AUTHENTICATION_BACKENDS
+        
+def test_auth_password_validators():
+    print(settings.AUTH_PASSWORD_VALIDATORS)
+    assert {
+        'NAME': 'from_plugin.auth_password_validators.PluginAuthPasswordValidator'
+    } in settings.AUTH_PASSWORD_VALIDATORS
+
+
 @pytest.mark.asyncio
 async def test_asgi_wrapper():
     from django.core.asgi import get_asgi_application

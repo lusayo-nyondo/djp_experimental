@@ -33,3 +33,76 @@ def settings(current_settings):
 @hookspec
 def asgi_wrapper():
     """Returns an ASGI middleware callable to wrap our ASGI application with"""
+  
+
+@hookspec
+def databases():
+    """
+    Returns a list of Database specs that can be added to the project's
+    DATABASES setting.
+    """
+ 
+  
+@hookspec
+def context_processors():
+    """
+    Returns a list of Python package strings to be added as context_processors
+    for Django's templating engine.
+    """
+
+
+@hookspec
+def loaders():
+    """
+    Returns a list of strings that are added to the project's default 'loaders'
+    setting for Django's templating engine if it exists.
+    """
+
+
+@hookspec
+def builtins():
+    """
+    Returns a list of Python template tag packages to be added as builtins
+    for Django's templating engine.
+    """
+
+
+@hookspec
+def staticfiles_dirs():
+    """
+    Returns a list of class name strings that are added to the project's default
+    STATICFILES_DIRS setting for Django's templating engine if it exists.
+    """
+
+    
+@hookspec
+def staticfiles_finders():
+    """
+    Returns a list of class name strings that are added to the project's default
+    STATICFILES_FINDERS setting for Django's templating engine if it exists.
+    """
+
+
+@hookspec
+def auth_password_validators():
+    """
+    Returns a list of Auth password validators that can be added to
+    the project's AUTH_PASSWORD_VALIDATORS setting.
+    """
+
+
+@hookspec
+def authentication_backends():
+    """
+    Returns a list of Authentication backends that can be added to
+    the project's Authentication backends.
+    """
+
+
+@hookspec
+def template_includes():
+    """
+    Returns a list of arbitrary strings that are included inside project templates.
+    Right now, without validation, introduces the possibility of a plugin breaking the entire
+    templating engine, so validation must be added later.
+    """
