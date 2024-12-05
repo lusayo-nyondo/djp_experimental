@@ -1,3 +1,4 @@
+import djp
 from django.template.library import Library
 
 register = Library()
@@ -6,4 +7,4 @@ register = Library()
     name="djp"
 )
 def template_includes():
-    pass
+    return djp.pm.hooks.template_includes()

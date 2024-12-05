@@ -196,7 +196,6 @@ def settings(current_settings):
         # Now AUTHPASSWORD_VALIDATORS    
         authpassword_validators_ = to_list(current_settings["AUTH_PASSWORD_VALIDATORS"])
         authpassword_validators_ += auth_password_validators()
-        print("Adding auth password validators")
         current_settings["AUTH_PASSWORD_VALIDATORS"] = authpassword_validators_
     
     if setting_exists("AUTHENTICATION_BACKENDS", current_settings):        
