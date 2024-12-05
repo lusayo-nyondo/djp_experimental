@@ -1,10 +1,10 @@
 [project]
 name = "djp"
-version = "0.3.1"
-description = "A plugin system for Django"
+version = "0.3.3"
+description = "A plugin system for Django (modded by me, Lusayo, for development.)"
 readme = "README.md"
 requires-python = ">=3.8"
-authors = [{name = "Simon Willison"}]
+authors = [{name = "Simon Willison"},{name = "Lusayo Nyondo"}]
 license = {text = "Apache-2.0"}
 classifiers = [
     "License :: OSI Approved :: Apache Software License",
