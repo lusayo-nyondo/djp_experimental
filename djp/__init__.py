@@ -180,13 +180,13 @@ def settings(current_settings):
         loaders_ += loaders()
         current_settings["TEMPLATES"][0]["OPTIONS"]["loaders"] = loaders_
     
-    if setting_exists("STATICFILES_FINDERS", current_settings):
+    if setting_exists("STATICFILES_DIRS", current_settings):
         # Now STATICFILES_FINDERS
         staticfiles_dirs_ = to_list(current_settings["STATICFILES_DIRS"])
         staticfiles_dirs_ += staticfiles_dirs()
         current_settings["STATICFILES_DIRS"] = staticfiles_dirs_
     
-    if setting_exists("STATICFILES_DIRS", current_settings):    
+    if setting_exists("STATICFILES_FINDERS", current_settings):    
         # Now STATICFILES_DIRS
         staticfiles_finders_ = to_list(current_settings["STATICFILES_FINDERS"])
         staticfiles_finders_ += staticfiles_finders()
