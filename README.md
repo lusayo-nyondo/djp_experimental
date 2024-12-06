@@ -55,3 +55,6 @@ To run the tests:
 ```bash
 python -m pytest
 ```
+
+# Notes:
+Not only did I add extra settings, but for using the {% djp %} template tag, it has to be wrapped in `{% autoescape off %} {% endautoescape %}`
