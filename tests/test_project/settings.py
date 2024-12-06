@@ -1,4 +1,10 @@
 import djp
+from pathlib import Path
+
+BASE_PATH = Path(__file__).resolve().parent
+
+import sys
+sys.path.append(str(BASE_PATH))
 
 SECRET_KEY = "django-insecure-test-key"
 DEBUG = True
@@ -8,6 +14,7 @@ INSTALLED_APPS = (
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
+    'django.contrib.staticfiles',
 )
 
 MIDDLEWARE: tuple = tuple()
@@ -26,6 +33,9 @@ FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [
+            BASE_PATH / 'templates'
+        ],
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -39,13 +49,9 @@ TEMPLATES = [
                     'django.template.loaders.filesystem.Loader',
                     # Inluding this is the same as APP_DIRS=True
                     'django.template.loaders.app_directories.Loader',
-                    # Components loader
-                    'django_components.template_loader.Loader',
                 ]
             )],
             'builtins': [
-                'django_components.templatetags.component_tags',
-                'themer.templatetags.themer_tags',
             ]
         },
     }
@@ -80,5 +86,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
 
 djp.settings(globals())

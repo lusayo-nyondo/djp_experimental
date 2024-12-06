@@ -15,7 +15,6 @@ def test_middleware_order():
         "tests.test_project.middleware.MiddlewareAfter",
     ]
 
-
 def test_middleware():
     response = Client().get("/")
     assert response["X-DJP-Middleware-After"] == "MiddlewareAfter"
@@ -57,7 +56,7 @@ def test_context_processors():
 
 
 def test_loaders():
-    assert 'from_plugin.loaders.my_plugin_loader' \
+    assert 'from_plugin.loaders.MyPluginLoader' \
         in settings.TEMPLATES[0]["OPTIONS"]['loaders']
 
      
@@ -98,4 +97,9 @@ async def test_asgi_wrapper():
     ) as client:
         response = await client.get("http://testserver/hello")
         assert response.status_code == 200
-        assert response.text == "Hello world"
+        assert response.content == b"Hello world"
+
+
+def test_template_includes():
+    response = Client().get("/index")
+    assert '<script src="from_plugin.js"></script>' in str(response.content)
