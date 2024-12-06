@@ -6,5 +6,7 @@ import djp
 @djp.hookimpl
 def template_includes():
     return """
+        {% autoescape off %}
         <script src="from_plugin.js"></script>
+        {% endautoescape %}
     """.strip()

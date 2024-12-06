@@ -7,4 +7,4 @@ register = Library()
     name="djp"
 )
 def template_includes():
-    return djp.pm.hooks.template_includes()
+    return str(djp.pm.hook.template_includes())

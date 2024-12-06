@@ -102,4 +102,5 @@ async def test_asgi_wrapper():
 
 def test_template_includes():
     response = Client().get("/index")
-    assert '<script src="from_plugin.js"></script>' in str(response.content)
+    content = str(response.content)
+    assert '<script src="from_plugin.js"></script>' in str(content)
