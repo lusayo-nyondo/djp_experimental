@@ -137,10 +137,10 @@ def context_processors():
 def builtins():
     return list(itertools.chain(*pm.hook.builtins()))
 
-
+"""
 def loaders():
     return list(itertools.chain(*pm.hook.loaders()))
-
+"""
 
 def settings(current_settings):
     # First wrap INSTALLED_APPS
@@ -172,13 +172,14 @@ def settings(current_settings):
         builtins_ += builtins()
         current_settings["TEMPLATES"][0]["OPTIONS"]["builtins"] = builtins_
     
-    if setting_exists("LOADERS", current_settings):
+    """if setting_exists("LOADERS", current_settings):
         # Now LOADERS
         loaders_ = to_list(
             current_settings["TEMPLATES"][0]["OPTIONS"]["loaders"]
         )
         loaders_ += loaders()
         current_settings["TEMPLATES"][0]["OPTIONS"]["loaders"] = loaders_
+    """
     
     if setting_exists("STATICFILES_DIRS", current_settings):
         # Now STATICFILES_FINDERS

@@ -56,5 +56,30 @@ To run the tests:
 python -m pytest
 ```
 
-# Notes:
-Not only did I add extra settings, but for using the {% djp %} template tag, it has to be wrapped in `{% autoescape off %} {% endautoescape %}`
+# Notes: (Lusayo - 12 December 2024):
+Here are the changes I've made to DJP that justify forking it as an experimental repo:
+
+1. Added extra hooks for hooking into different parts of the config:
+
+- databases
+    - This adds to the project's DATABASES setting. Unvalidated as of now.
+- context_processors
+    - This adds to the project's context_processors option for the first templating engine found inside the TEMPLATES setting. Note it only adds context_processors to the first dictionary found inside the TEMPLATES setting.
+- builtins
+    - This adds to the project's builtins option for the first templating engine found inside the TEMPLATES setting. Note it only adds the builtins to the first dictionary found inside the TEMPLATES setting.
+- staticfiles_dirs
+    - This adds to the project's STATICFILES_DIRS setting if present in the project.
+- staticfiles_finders
+    - This adds to the project's STATICFILES_FINDERS setting if present in the project.
+- authentication_backends
+    - This adds to the project's AUTHENTICATION_BACKENDS setting if present in the project.
+- auth_password_validators
+    - This adds to the project's AUTH_PASSWORD_VALIDATORS setting if present in the project.
+- page_head_includes
+    - This works together with the {% djp_page_head_includes %} template tag, registering whatever string is included as part of the output of that tag.
+- page_body_includes
+    - This works together with the {% djp_page_body_includes %} template tag, registering whatever string is included as part of the output of that tag.
+
+* NOTE: I played around with also allowing a "loaders" hook for the templating engine options, but I think adding that hook is going to complicate things, so I've put it off for now.
+
+2. Added a custom management command for showing the current value of the DJP_PLUGINS_DIR setting. This is useful for adding plugins to django projects on the fly.

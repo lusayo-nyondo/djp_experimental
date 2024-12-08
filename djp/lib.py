@@ -46,5 +46,4 @@ def setting_exists(
         return setting.lower() in template_options.keys()
     else:
         raise Exception("Unsupported setting.")
-        
-    
+

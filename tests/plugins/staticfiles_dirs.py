@@ -1,5 +1,6 @@
 import djp
 
+
 @djp.hookimpl
 def staticfiles_dirs():
     return [

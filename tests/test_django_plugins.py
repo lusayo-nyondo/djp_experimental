@@ -55,10 +55,10 @@ def test_context_processors():
         in settings.TEMPLATES[0]["OPTIONS"]['context_processors']
 
 
-def test_loaders():
+"""def test_loaders():
     assert 'from_plugin.loaders.MyPluginLoader' \
         in settings.TEMPLATES[0]["OPTIONS"]['loaders']
-
+"""
      
 def test_builtins():
     assert 'from_plugin.templatetags.my_plugin_tags' \
@@ -100,7 +100,14 @@ async def test_asgi_wrapper():
         assert response.content == b"Hello world"
 
 
-def test_template_includes():
+def test_page_body_includes():
     response = Client().get("/index")
     content = str(response.content)
     assert '<script src="from_plugin.js"></script>' in str(content)
+
+   
+def test_page_head_includes():
+    response = Client().get("/index")
+    content = str(response.content)
+    assert '<link href="from_plugin.css" type="text/css" rel="stylesheet">' \
+        in str(content)

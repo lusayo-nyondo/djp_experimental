@@ -50,14 +50,12 @@ def context_processors():
     for Django's templating engine.
     """
 
-
+"""
 @hookspec
 def loaders():
-    """
     Returns a list of strings that are added to the project's default 'loaders'
     setting for Django's templating engine if it exists.
-    """
-
+"""
 
 @hookspec
 def builtins():
@@ -100,9 +98,19 @@ def authentication_backends():
 
 
 @hookspec
-def template_includes():
+def page_head_includes():
     """
     Returns a list of arbitrary strings that are included inside project templates.
     Right now, without validation, introduces the possibility of a plugin breaking the entire
-    templating engine, so validation must be added later.
+    templating engine, so validation must be added later to make sure that what's being included
+    are only valid HTML tags that make sense to be inside the head.
+    """
+    
+@hookspec
+def page_body_includes():
+    """
+    Returns a list of arbitrary strings that are included inside project template body right
+    before the closing body tag. Right now, without validation, introduces the possibility of
+    a plugin breaking the entire templating engine, so validation must be added later.
+    I also need to add ordering.
     """
