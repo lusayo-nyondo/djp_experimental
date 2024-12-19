@@ -86,6 +86,16 @@ def databases() -> dict:
         
     return merged_dict
 
+def admin_sidebar_items() -> dict:
+    dict_list = pm.hook.admin_sidebar_items()
+    
+    merged_dict = {}
+    
+    for dict_item in dict_list:
+        merged_dict.update(dict_item)
+    
+    return merged_dict
+
 
 def middleware(current_middleware: List[str]):
     before = []

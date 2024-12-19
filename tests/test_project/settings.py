@@ -1,4 +1,4 @@
-import djp
+import os
 from pathlib import Path
 
 BASE_PATH = Path(__file__).resolve().parent
@@ -88,4 +88,26 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+import djp
 djp.settings(globals())
+
+UNFOLD = {
+    "SIDEBAR": {
+        "show_search": False,
+        "show_all_applications": True,
+        "navigation": [
+            {
+                "title": "Test Project",
+                "items": [
+                    {
+                        "title": _("Dashboard"),
+                        "icon": "dashboard",  # Supported icon set: https://fonts.google.com/icons
+                        "link": "/admin",
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                ],
+            },
+            djp.admin_sidebar_items()
+        ],         
+    }
+}

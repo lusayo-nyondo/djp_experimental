@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.test.client import Client
+from django.contrib.auth.models import User
 import httpx
 import pytest
 
@@ -14,6 +15,7 @@ def test_middleware_order():
         "tests.test_project.middleware.Middleware3",
         "tests.test_project.middleware.MiddlewareAfter",
     ]
+
 
 def test_middleware():
     response = Client().get("/")
@@ -111,3 +113,28 @@ def test_page_head_includes():
     content = str(response.content)
     assert '<link href="from_plugin.css" type="text/css" rel="stylesheet">' \
         in str(content)
+
+
+@pytest.mark.django_db
+def test_admin_sidebar_items():
+    client = Client()
+    superuser = User.objects.create_superuser(
+        username='admin',
+        password='password',
+        email='admin@example.com'
+    )
+
+    # Log in as the superuser
+    client.login(username='admin', password='password')
+    
+    # Fetch the admin index page
+    response = client.get('/admin/')
+    
+    # Check if the response is successful
+    assert response.status_code == 200
+    
+    # Convert response content to string for searching
+    content = str(response.content)
+    
+    # Assert that the specific link is present in the sidebar
+    assert '<a href="my_url">My Link</a>' in content

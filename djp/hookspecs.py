@@ -64,7 +64,6 @@ def builtins():
     for Django's templating engine.
     """
 
-
 @hookspec
 def staticfiles_dirs():
     """
@@ -98,6 +97,14 @@ def authentication_backends():
 
 
 @hookspec
+def admin_sidebar_items():
+    """
+    Returns a list of items to be placed on the admin sidebar.
+    This uses django unfold.
+    """
+
+
+@hookspec
 def page_head_includes():
     """
     Returns a list of arbitrary strings that are included inside project templates.
@@ -105,7 +112,8 @@ def page_head_includes():
     templating engine, so validation must be added later to make sure that what's being included
     are only valid HTML tags that make sense to be inside the head.
     """
-    
+
+
 @hookspec
 def page_body_includes():
     """
