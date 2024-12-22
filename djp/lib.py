@@ -13,6 +13,7 @@ def setting_exists(
         'STATICFILES_FINDERS',
         'AUTH_PASSWORD_VALIDATORS',
         'AUTHENTICATION_BACKENDS',
+        'ADMIN_SIDEBAR_ITEMS',
     ]:
         return setting in current_settings.keys()
     elif setting in [
@@ -21,10 +22,10 @@ def setting_exists(
         'BUILTINS',
     ]:
         has_templates_setting = "TEMPLATES" in current_settings.keys()
-        
+
         if not has_templates_setting:
             return False
-        
+
         template_confs = current_settings["TEMPLATES"]
         
         if not isinstance(template_confs, list):

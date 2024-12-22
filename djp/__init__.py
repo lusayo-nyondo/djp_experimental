@@ -202,7 +202,7 @@ def settings(current_settings):
         authentication_backends_ += authentication_backends()
         current_settings["AUTHENTICATION_BACKENDS"] = authentication_backends_
     
-    if setting_exists("ADMIN_SIDEBAR", current_settings):
+    if setting_exists("ADMIN_SIDEBAR_ITEMS", current_settings):
         admin_sidebar_items_ = to_list(current_settings["ADMIN_SIDEBAR"])
         admin_sidebar_items_ += admin_sidebar_items()
         current_settings["ADMIN_SIDEBAR_ITEMS"] = admin_sidebar_items_
