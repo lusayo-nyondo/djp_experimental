@@ -50,12 +50,6 @@ def context_processors():
     for Django's templating engine.
     """
 
-"""
-@hookspec
-def loaders():
-    Returns a list of strings that are added to the project's default 'loaders'
-    setting for Django's templating engine if it exists.
-"""
 
 @hookspec
 def builtins():
